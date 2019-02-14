@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-  before_action :find_movie!
+  before_action :find_movie!, except: [:top]
 
   def create
     @comment = Comment.new(comment_params)
@@ -22,6 +22,14 @@ class CommentsController < ApplicationController
     else
       redirect_back(fallback_location: root_path, alert: 'Cannot delete others comments')
     end
+  end
+
+  def top
+    @top_commenters = User.joins(:comments)
+                      .select('users.*, COUNT(comments.user_id) as total_comments')
+                      .order('total_comments DESC')
+                      .group('comments.user_id')
+                      .where("comments.created_at > ?", Time.now - 7.days).limit(10)
   end
 
   private
