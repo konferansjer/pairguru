@@ -1,0 +1,10 @@
+.panel.panel-default
+  .panel-heading.float-right
+    .panel-title.pull-left
+      #{comment.user.name} commented #{time_ago_in_words comment.created_at}
+    - if user_signed_in? && comment.user_id == current_user.id
+      = button_to "Delete", movie_comment_path(@movie, comment), form_class: 'pull-right', class: 'btn btn-danger', method: :delete 
+    .clearfix
+  .panel-body
+    = comment.content 
+  
