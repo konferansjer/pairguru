@@ -1,0 +1,8 @@
+.row
+  .col-md-6.col-md-offset-3
+    %h1.text-center Top Commenters
+    %ul.list-group
+      - @top_commenters.each do |commenter|
+        %li.list-group-item
+          =commenter.name
+          %span.badge=commenter.total_comments
